@@ -1,0 +1,178 @@
+/* Class that hides framework legend */
+.hideLegend{
+	display:none !important;
+}
+/* Bold text in intro div*/
+.introBold{
+	font-weight:bold;margin-left:25px;margin-bottom:-10px;
+}	
+/* Left side and right side divs in app */
+.leftSide{
+	width: 270px; height:482px; float:left; display:none;	
+}
+.rightSide{
+	margin-left:280px; height:350px; margin-bottom:20px; display:none;
+}	
+/* Dropshadows */
+.bottomRight{
+	-webkit-box-shadow:2px 2px 3px 0px rgba(102,102,102,0.7); -moz-box-shadow:2px 2px 3px 0px rgba(102,102,102,0.7); box-shadow:2px 2px 3px 0px rgba(102,102,102,0.7);
+}
+.bottomRight1{
+	-webkit-box-shadow:1px 1px 2px 0px rgba(102,102,102,0.7); -moz-box-shadow:1px 1px 2px 0px rgba(102,102,102,0.7); box-shadow:1px 1px 2px 0px rgba(102,102,102,0.7);
+}
+/* Headers */
+.clickTitle{
+	position:absolute; left:10px; background-color:white; z-index:15;
+}
+.sectionHeader{
+	font-weight:bold; font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important; font-size:11pt !important; color:#21658c;
+}
+.fiveBottom{
+	margin-bottom:5px;	
+}
+.sectionHeader1{
+	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important; font-size:11pt !important; color:#21658c; cursor: default;
+}
+/* Nothing selected popup */
+.selectNone{
+	position:absolute; top: 122px; width: 270px; left: 8px; z-index:50; background-color:#fff; padding:10px; border: 1px solid #215973; display:none; color: #a14612;
+}
+/* Chosen select menu elements */
+.selectDivs{
+	margin-bottom:5px;
+}
+.selectInline{
+	margin-left:135px;
+}
+.selectFloat{
+	float:left;
+}
+.chosen-container-single .chosen-single{
+	padding: 0 0 0 4px;
+}
+.chosen-container-single .chosen-default, .chosen-container-multi .chosen-choices li.search-field input[type="text"]{
+	color:#444;
+}	
+.chosen-container-multi .chosen-choices li.search-field input[type="text"], .chosen-container, .search-choice, .active-result, .result-selected{
+	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important;
+	font-size:10pt !important;
+}
+.chosen-container-single .chosen-single span{
+	margin-right:20px;
+}
+.chosen-container-single .chosen-single-with-deselect span{
+	margin-right:20px;
+}
+abbr.search-choice-close {
+  cursor: pointer;
+}
+/* Species Details elements */
+.spDetails{
+	border: 1px solid #215973; 
+	padding:8px;
+	margin-top:5px;
+	display:none;
+}
+.sdkOpen{
+	cursor:pointer;
+}
+.splabel{
+	display: inline-block; width:155px; text-align:right; margin-bottom:5px; font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important; font-size:10pt !important;
+}
+.spd{
+	margin-left:3px; display: inline-block; font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important; font-size:10pt !important; font-weight:bold;
+}
+.spd1{
+	font-weight:bold; text-decoration:underline;	
+}	
+.spGroups{
+	vertical-align:top;
+}
+/* Species details key */
+.spDetailsKey{
+	display:none; position:absolute; left:20px; top:174px; border: 2px solid #215973; padding:10px; width:260px; height:321px; background-color:#ffffff;
+}
+.spDKheaderDiv{
+	position:absolute; top:0px; left:0px; background-color:#F3F3F3; width:256px; height:34px; border-bottom-style:groove; 
+}
+.spDKheader{
+	margin-top:8px; margin-left:5px;
+}	
+.sdkClose{
+	position:absolute; top:2px; right:3px; width:26px; height:26px; border-left:1px solid #c2c2c2; border-right: 1px solid #dadada; text-align:center; padding-top:6px; font-weight:bold; 
+	border-radius:5px; color:#21658c;
+}
+.sdkClose:hover{
+	background-color:#fff; 
+}
+.sdkClose:active{
+	background-color: #f3f3f3; border-left: 1px solid #dadada; border-right: 1px solid #c2c2c2;
+}	
+/* Species range map checkbox */
+.rMapCb{
+	cursor:pointer;
+}
+.showRangeMaps{
+	margin-left:0px; margin-top:5px;
+}
+label.showRangeMaps input[type=checkbox]{
+	position: relative; vertical-align: middle; bottom: 1px; margin-right:3px;
+}
+/* Bottom Bar Elements */
+.bottomDiv{
+	position:absolute; bottom:0px; left:0px; width:100%; border-top-style:groove !important; height:30px !important; 
+	background-color:#F3F3F3 !important; padding-top:3px !important; display:none;
+}
+.sliderDiv{
+	width:412px; text-align:center; display:none;
+}
+.printReport{
+	margin-left:5px; display:inline-block;
+}
+.dlCSV{
+	float:right; margin-right:5px;
+}
+.bottomLinks:hover{
+	background-color:#eee; border:1px solid #bbb; cursor:pointer;
+}
+.bottomLinks:active{
+	background-color:#f3f3f3; border:1px solid #bbb; cursor:pointer;
+}
+.bottomLinks{
+	width:70px; height:20px; padding-top:2px; border:1px solid #ddd; background-color:#eee; text-align:center; font-size:10pt; color:#21658c; font-weight:bold;
+}
+.leftSliderLabel{
+	display:inline-block; margin-right:9px; font-size:10pt;
+}	
+.slider{
+	width:100px; display:inline-block;
+}
+.ui-slider-horizontal { 
+	height: 5px; 
+}
+.ui-slider-horizontal .ui-slider-handle { 
+	height:15px; width:15px; margin-top:-1px; 
+}
+.rightSliderLabel{
+	display:inline-block; margin-left:5px; font-size:10pt;
+}
+/* Popup Legend Elements */
+.myLegendHeader{
+	background-color:#424542; color:#fff; height:28px; font-size:1em; font-weight:bold; padding:8px 0px 0px 10px; cursor:move;
+}
+.myLegendCloser{
+	float:right !important; width:26px; height:26px; border-left:1px solid #666; text-align:center; font-weight:bold; padding:6px !important; right:-8px; color:#cecfce; border-radius:5px;
+}
+.myLegendCloser:hover{
+	background-color:#000; color:#cecfce;
+}
+.myLegendCloser:active{
+	background-color:#545754; border-right:1px solid #666; border-left:none; 
+}	
+.myLegendDiv{
+	z-index:8; position:absolute; right:105px; min-width:150px; height:300px; bottom:50px; background-color:#FFF; border-style:solid; border-width:4px; 
+	border-color:#444; border-radius:5px;box-shadow: 3px 3px 5px 0px rgba(102,102,102,0.7); 
+}
+.mySpeciesLegend{
+	float:right; display:block; text-align:right; margin-left:-10px; padding:10px !important;
+}

@@ -1,0 +1,147 @@
+﻿<!--This HTML is used in the render function to build the elements within the plugin. The render function first creats a 
+Dijit ContentPane to hold all the elements. The ContentPane is assigned a dynamic id upon creation. The render function 
+takes the ContentPane id and prepends it to every element with a declared id in this HTML before the elements are created. 
+The unique ContentPane id makes all the element ids unique and prevents duplicate id errors in split screen mode.-->
+<!--Opening view of the app. Give a little background and instructions to get started-->
+<div id='clickTitle' class='clickTitle sectionHeader'>
+	<p>Welcome to the CLIMAD Species app. Hold the Shift key while dragging your mouse over the map to zoom to your area of interest.<p> 
+	
+	<p class='introBold'>Click a Hexagon to Learn More</p>
+</div>
+<!--Left side floating div that holds the species table and alter message if no species are selected-->
+<div id='leftSide' class='leftSide'>
+	<div class='selectNone sectionHeader bottomRight' id='selectNone'>Your filter selections returned no results. Please deselect or change your selections to view results.</div>
+	<div class="wrapper bottomRight">
+		<table id='myTable' class='tablesorter'> 
+			<thead> 
+				<tr> 
+					<th data-placeholder='Filter Species Names'><div style='width: 151px;' >Species Name</div></th> 
+					<th data-placeholder='Filter Taxon'>Taxon</th> 
+				</tr> 
+			</thead> 
+			<tbody> 		
+			</tbody> 
+		</table>
+	</div>
+</div>
+<!--Right side floating div that holds the filter elements and the species details div-->
+<div id='rightSide' class='rightSide'>
+	<div class='sectionHeader fiveBottom'>Filter Results By:</div>
+	<div class="selectDivs selectFloat">
+		<!--Select elements are given an id of ch- plus the field name from the attribute table (TAXON in this case). 
+		The option values match known values from the named field in the attribute table. So if someone selects FISH, 
+		the javascript takes TAXON from the id and removes results where TAXON != 'FISH'. The javascript listens for 
+		select menu for changes to the class filter within the id rightSide. Adding the right side id prevents class 
+		changes from updating on both sides during split screen mode. As long as you follow the naming convention you 
+		can add/remove select menus or options without changing the javascript.-->
+		<select id='ch-TAXON' data-placeholder="Taxon" class="chosen-select filter" tabindex="16">
+			<option value=""></option>
+			<option value="Fish">Fish</option>
+			<option value="Invertebrate">Invertebrate</option>
+			<option value="Mollusk">Mollusk</option>
+			<option value="Reptile">Reptile</option>
+			<option value="Tree">Tree</option>
+		</select>
+	</div>
+	<div class="selectDivs selectInline">
+		<select id='ch-MAX_habavail_up60' data-placeholder="Habitat Availability" class="chosen-select filter" tabindex="16">
+			<option value=""></option>
+			<option value='1'>Remove Low</option>
+		</select>
+	</div>
+	<div class="selectDivs selectFloat">	
+		<select id='ch-fut_rpatch_ratio_cls' data-placeholder="Habitat Change Class" class="chosen-select filter" tabindex="16">
+			<option value=""></option>
+			<option value='decrease'>Decrease</option>
+			<option value='extripated'>Extirpated</option>
+			<option value='increase'>Increase</option>
+			<option value='new entry'>New Entry</option>
+			<option value='no change'>No Change</option>
+		</select>
+	</div>
+	<div class="selectDivs selectInline">
+		<select id='ch-Cons_spp' data-placeholder="Special Designations" class="chosen-select filter" tabindex="16">
+			<option value=""></option>
+			<option value='1'>Rare Species Only</option>
+			<option value='2'>Rare and SGCN</option>
+			<option value='3'>SGCN Only</option>
+		</select>
+	</div>
+	<div class="selectDivs">
+		<!--This is a multiple select and uses the id to differntiate how it's handled in the javascript. 
+		The option values refer to field names in this one and any field with a value of 1 is kept. 
+		So if someone chose Alpine and Medium River the javascript would basically create a query that asked for Apline == 1-->
+		<select id='ch-Associations' data-placeholder="Habitat Associations" multiple class="chosen-select-multiple filter" tabindex="16">
+			<option value=""></option>
+			<option value='Agriculture'>Agriculture</option>
+			<option value='Alpine'>Alpine</option>
+			<option value='Developed'>Developed</option>
+			<option value='Estuarine'>Estuarine</option>
+			<option value='Forest_and_Woodland'>Forest and Woodland</option>
+			<option value='Headwater_or_Creek'>Headwater or Creek</option>
+			<option value='Lakes_and_Ponds'>Lakes and Ponds</option>
+			<option value='Large_or_Great_River'>Large or Great River</option>
+			<option value='Marine'>Marine</option>
+			<option value='Marine_Cultural'>Marine Cultural</option>
+			<option value='Medium_River'>Medium River</option>
+			<option value='Riverine_Cultural'>Riverine Cultural</option>
+			<option value='Shrubland_and_Grassland'>Shrubland and Grassland</option>
+			<option value='Small_River'>Small River</option>
+			<option value='Sparsely_Vegetated_Rock'>Sparsely Vegetated Rock</option>
+			<option value='Vernal_Pool'>Vernal Pool</option>
+		</select>
+	</div>
+	<div id='spDetailsHeader' class='sectionHeader'><img src='plugins/species/images/leftArrow.png' alt='left arrow'> Click Rows for Species Details</div>
+	<label class='sectionHeader1 showRangeMaps'><input type='checkbox' id='rMapCb' class='rMapCb'><span id='rmText'>Show Range Map On Selection</span></label>
+	<!--The species details div is populated using ids (d- plus field name) that match the field name from a selected species row.
+	When someone clicks on a row in the species table the javascript loops through all the field names in the attributes paramenter.
+	If a field name matches the id of one of the divs below that fields value is placed in the div.
+	If you follow the id naming convention (d- plus field name) you can add or remove divs from this table without changing the javascript and the app will update the correct values-->
+	<div id='spDetails' class='spDetails bottomRight'>
+		<div class='spGroups'> <div class='spd spd1' id='d-Display_Name'> </div> </div>	
+		<div class='spGroups'> <div class='splabel'>NY Condition Rating:</div><div class='spd' id='d-Condition_C'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>NY Threat Rating:</div><div class='spd' id='d-Threat_C'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>NY Position in Range:</div><div class='spd' id='d-Range_position'> </div> </div>
+		<div class='spGroups'>	<div class='splabel'>NY Climate Vulnerability Rating:</div><div class='spd' id='d-Clim_Vuln_C'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Hex Avg Vulnerability Index:</div><div class='spd' id='d-CCVIS_mean_cls'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Hex Future Habitat Change:</div><div class='spd' id='d-fut_rpatch_ratio_cls'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>NY Future Habitat Change:</div><div class='spd' id='d-Range_Shift_NY'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Rare Species:</div><div class='spd' id='d-Rare_spp'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>SGCN:</div><div class='spd' id='d-SGCN'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Future connection area:</div><div class='spd' id='d-NHP_tConnect_label'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Habitat Availability (NYNHP):</div><div class='spd' id='d-NHPc_rel_patch_qnt'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Habitat Availability (GAP):</div><div class='spd' id='d-GAP_rel_patch_qnt'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Habitat Availability (FishVis):</div><div class='spd' id='d-FVc_rel_patch_qnt'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Habitat Availability (McK):</div><div class='spd' id='d-McK_rel_patch_qnt'> </div> </div>
+		<div class='spGroups'> <div class='splabel'>Habitat Availability (USFS):</div><div class='spd' id='d-USFS_CCTA_cur_qnt'> </div> </div>
+	</div>
+</div>	
+<!--Bottom bar with slider and print/csv buttons-->
+<div id='bottomDiv' class='bottomDiv'>
+	<div id='printReport' class='printReport bottomLinks'>Print Report</div>
+	<div id='sliderDiv' class='sliderDiv'>
+		<div class='leftSliderLabel'>
+			Opaque
+		</div>
+		<div id='slider' class='slider'>
+		</div>
+		<div class='rightSliderLabel'>
+			Transparent
+		</div>
+	</div>
+	<div id='dlCSV' class='dlCSV bottomLinks'>
+		Get CSV
+	</div>
+</div>	
+<!--Key to species details div. Absolutely positioned so it overlaps the species rsesults table when turned on-->
+<div id='spDetailsKey' class='spDetailsKey bottomRight'>
+	<div class='spDKheaderDiv'>
+		<div class='sectionHeader spDKheader'>Species Details Key</div>
+		<a id='sdkClose' class='sdkClose' href='#'>
+			&#10006;
+		</a>
+	</div>
+	
+	<p>A whole bunch of info explaining each field.</p> 
+	<p>You will be informed.</p>
+</div>

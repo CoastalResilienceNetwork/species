@@ -1,0 +1,19 @@
+{
+    "visibleLayers": [],
+	"tsFilters": [],
+	"extent": "",
+	"sliderVal": 4,
+	"selectedObId": "",
+	"detailsVis": "none",
+	"sppcode": "",	
+	"speciesRow": "",
+	"stateSet": "no",
+	"filteredIDs": [],
+	"filter": [ 
+		{"field": "Associations", "value": [] },
+		{"field": "TAXON", "value": ""}, 
+		{"field": "MAX_habavail_up60", "value": ""}, 
+		{"field": "fut_rpatch_ratio_cls",	"value": ""},
+		{"field": "Cons_spp", "value": ""}	
+	]
+}
