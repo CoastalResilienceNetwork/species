@@ -34,13 +34,11 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 		select menu for changes to the class filter within the id rightSide. Adding the right side id prevents class 
 		changes from updating on both sides during split screen mode. As long as you follow the naming convention you 
 		can add/remove select menus or options without changing the javascript.-->
-		<select id='ch-TAXON' data-placeholder="Taxon" class="chosen-select filter" tabindex="16">
+		<select id='ch-timespan' data-placeholder="Timespan" class="chosen-select filter" tabindex="16">
 			<option value=""></option>
-			<option value="Fish">Fish</option>
-			<option value="Invertebrate">Invertebrate</option>
-			<option value="Mollusk">Mollusk</option>
-			<option value="Reptile">Reptile</option>
-			<option value="Tree">Tree</option>
+			<option value="temporal connectivity-future only">Current Day Species</option>
+			<option value="temporal connectivity-current day only">Future Species</option>
+			<option value="temporal connectivity">Temporal Connectivity</option>
 		</select>
 	</div>
 	<div class="selectDivs selectInline">
@@ -50,12 +48,13 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 		</select>
 	</div>
 	<div class="selectDivs selectFloat">	
-		<select id='ch-fut_rpatch_ratio_cls' data-placeholder="Habitat Change Class" class="chosen-select filter" tabindex="16">
+		<select id='ch-fut_rpatch_filter' data-placeholder="Habitat Change Class" class="chosen-select filter" tabindex="16">
 			<option value=""></option>
+			<option value='absent'>Absent</option>
+			<option value='future entry'>Future Entry</option>
+			<option value='future exit'>Future Exit</option>
 			<option value='decrease'>Decrease</option>
-			<option value='extripated'>Extirpated</option>
 			<option value='increase'>Increase</option>
-			<option value='new entry'>New Entry</option>
 			<option value='no change'>No Change</option>
 		</select>
 	</div>

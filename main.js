@@ -201,7 +201,6 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 								$('#' + this.appDiv.id + 'selectNone').slideUp('fast');
 							}
 						}
-						console.log(this.config.tsFilters);
 					}));
 					
 				}));	
@@ -365,7 +364,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 									this.config.filter[this.ind].value.splice(index, 1);
 								}
 							}			
-						}
+						}	
 						// Single select menu handler
 						else{
 							// Get object where active menu id matches the field value. If option is seleceted add its value to the value property in current object.
@@ -435,6 +434,29 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 							}));						
 						}	
 					}
+					// special case filter for timespan field
+					else if (v.field == "timespan"){
+						this.val1 = v.value.substr(0, v.value.indexOf('-'))  
+						this.val2 = v.value.split("-").pop()
+						console.log(this.val1 + "__" + this.val2)
+						if (this.val1 == ""){
+							$.each(this.itemsFiltered, lang.hitch(this,function(i3,v3){
+								if (v3[v.field] != this.val2){
+									this.hideRow(v3.Display_Name)
+								}		
+							}));	
+						}else{
+							$.each(this.itemsFiltered, lang.hitch(this,function(i3,v3){
+								if (v3[v.field] == this.val1){
+									this.hideRow(v3.Display_Name)
+								}	
+								if (v3[v.field] == this.val2) {
+									this.hideRow(v3.Display_Name)
+								}	
+							}));		
+						}	
+	
+					}	
 					// For single-select menu
 					else{
 						if (v.value != ""){
