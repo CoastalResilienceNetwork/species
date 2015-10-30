@@ -15,7 +15,7 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 		<table id='myTable' class='tablesorter'> 
 			<thead> 
 				<tr> 
-					<th data-placeholder='Filter Species Names'><div style='width: 151px;' >Species Name</div></th> 
+					<th data-placeholder='Filter Species Names'><div style='width: 150px;' >Species Name</div></th> 
 					<th data-placeholder='Filter Taxon'>Taxon</th> 
 				</tr> 
 			</thead> 
@@ -36,8 +36,12 @@ The unique ContentPane id makes all the element ids unique and prevents duplicat
 		can add/remove select menus or options without changing the javascript.-->
 		<select id='ch-timespan' data-placeholder="Timespan" class="chosen-select filter" tabindex="16">
 			<option value=""></option>
-			<option value="temporal connectivity-future only">Current Day Species</option>
-			<option value="temporal connectivity-current day only">Future Species</option>
+			<!--Special case here. If you want to get more than one value from the same field add the values you don't
+			want to keep as a list in the value property below. The option below has 'temporal connectivity,future only'.
+			That means you want everything except those two values. The third option below only has one value and follows
+			the logic described above-->
+			<option value="temporal connectivity,future only">Current Day Species</option>
+			<option value="temporal connectivity,current day only">Future Species</option>
 			<option value="temporal connectivity">Temporal Connectivity</option>
 		</select>
 	</div>

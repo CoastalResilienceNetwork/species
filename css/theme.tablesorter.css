@@ -8,7 +8,7 @@
 	overflow-y: auto;
 	overflow-x:hidden;
 	border: 1px solid #215973;
-	width: 270px;
+	width: 278px;
 	height: 459px;
 	margin-top:20px;
 }
@@ -226,12 +226,13 @@ caption {
 	filter: alpha(opacity=0);
 }
 /* filters */
+
 .tablesorter-blue input.tablesorter-filter,
 .tablesorter-blue select.tablesorter-filter {
 	width: 98%;
 	height: auto;
 	margin: 0;
-	padding: 4px;
+	padding: 4px 2px;
 	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important;
 	font-size: 10pt !important;
 	background-color: #fff;

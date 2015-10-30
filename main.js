@@ -45,6 +45,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					$('#' + this.appDiv.id + 'bottomDiv').hide();
 					$('#' + this.appDiv.id + 'clickTitle').html("<p>Welcome to the CLIMAD Species app. Hold the Shift key while dragging your mouse over the map to zoom to your area of interest.<p>" + 
 																"<p style='font-weight:bold;margin-left:25px;margin-bottom:-10px;'>Click a Hexagon to Learn More</p>");
+					$('#' + this.appDiv.id + 'myLegendDiv').hide();
 				}
 				if (this.dynamicLayer != undefined)  {
 					this.dynamicLayer.setVisibility(false);
@@ -126,7 +127,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 			// Called by activate and builds the plugins elements and functions
 			render: function() {
 				// Define Content Pane		
-				this.appDiv = new ContentPane({style:'padding:8px'});
+				this.appDiv = new ContentPane({style:'padding:8px 2px 8px 8px'});
 				parser.parse();
 				dom.byId(this.container).appendChild(this.appDiv.domNode);					
 				// Get html from content.html, prepend appDiv.id to html element id's, and add to appDiv
@@ -206,7 +207,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				}));	
 				// Enable jquery plugin 'chosen'
 				require(["jquery", "plugins/species/js/chosen.jquery"],lang.hitch(this,function($) {
-					var config = { '.chosen-select'           : {allow_single_deselect:true, width:"130px", disable_search:true},
+					var config = { '.chosen-select'           : {allow_single_deselect:true, width:"138px", disable_search:true},
 						'.chosen-select-multiple'     : {width:"263px"} }
 					for (var selector in config) { $(selector).chosen(config[selector]); }
 				}));	
@@ -433,39 +434,36 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 								}	
 							}));						
 						}	
-					}
-					// special case filter for timespan field
-					else if (v.field == "timespan"){
-						this.val1 = v.value.substr(0, v.value.indexOf('-'))  
-						this.val2 = v.value.split("-").pop()
-						console.log(this.val1 + "__" + this.val2)
-						if (this.val1 == ""){
-							$.each(this.itemsFiltered, lang.hitch(this,function(i3,v3){
-								if (v3[v.field] != this.val2){
-									this.hideRow(v3.Display_Name)
-								}		
-							}));	
-						}else{
-							$.each(this.itemsFiltered, lang.hitch(this,function(i3,v3){
-								if (v3[v.field] == this.val1){
-									this.hideRow(v3.Display_Name)
-								}	
-								if (v3[v.field] == this.val2) {
-									this.hideRow(v3.Display_Name)
-								}	
-							}));		
-						}	
-	
 					}	
 					// For single-select menu
-					else{
-						if (v.value != ""){
+					else if (v.value != ""){
+						// Make an array of all values and split them by a comma
+						this.valArray = v.value.split(",");
+						// This is for a single select menu where you want one value from one field. That means remove everything that doesn't match that one value
+						// If only one value in array remove rows that don't equal that value
+						if (this.valArray.length == 1){
 							$.each(this.itemsFiltered, lang.hitch(this,function(i2,v2){
-								if (v2[v.field] != v.value){
+								if (v2[v.field] != this.valArray[0]){
 									this.hideRow(v2.Display_Name)
 								}	
 							}));									
 						}
+						/* This is for a single select menu where one selection looks for mutiple values within a field. Provide a comma-
+						separated-list of the values you DO NOT want shown in the options value property. The code below will remove rows with
+						provided values */
+						// If array has two or more values loop through and keep rows that match those values
+						if (this.valArray.length > 1){
+							// Loop through each value
+							$.each(this.valArray, lang.hitch(this,function(i3,v3){
+								// Check each value against each row and if value matches the display name remove the row
+								console.log(this.itemsFiltered)
+								$.each(this.itemsFiltered, lang.hitch(this,function(i4,v4){
+									if (v4[v.field] == v3){
+										this.hideRow(v4.Display_Name)
+									}	
+								}));	
+							}));			
+						}	
 					}	
 				}));
 				// If no rows visible (number of filtered items equlas number of data rows), show message to clear some filters
@@ -527,7 +525,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				}
 				if ($(this.useCon).width() < 300){
 					$( this.useCon ).animate({
-						width: "580",
+						width: "604",
 						height: "573px"
 					}, 500 , lang.hitch(this,function() {
 						$('#' + this.appDiv.id + 'myTable, #' + this.appDiv.id + 'leftSide, #' + this.appDiv.id + 'rightSide').css('display', 'block');

@@ -8,10 +8,10 @@
 }	
 /* Left side and right side divs in app */
 .leftSide{
-	width: 270px; height:482px; float:left; display:none;	
+	width: 278px; height:482px; float:left; display:none;	
 }
 .rightSide{
-	margin-left:280px; height:350px; margin-bottom:20px; display:none;
+	margin-left:288px; height:350px; margin-bottom:20px; display:none;
 }	
 /* Dropshadows */
 .bottomRight{
@@ -42,7 +42,7 @@
 	margin-bottom:5px;
 }
 .selectInline{
-	margin-left:135px;
+	margin-left:144px;
 }
 .selectFloat{
 	float:left;
@@ -57,6 +57,9 @@
 	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important;
 	font-size:10pt !important;
 }
+.chosen-container-single .chosen-single abbr{
+	right:16px;
+}	
 .chosen-container-single .chosen-single span{
 	margin-right:20px;
 }
