@@ -73,6 +73,9 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				} else {
 					if (this.dynamicLayer != undefined)  {
 						this.dynamicLayer.setVisibility(true);	
+						if ( this.map.getZoom() > 12 ){
+							this.map.setLevel(12)	
+						}	
 					}
 					if (this.fcDraw != undefined){
 						this.map.addLayer(this.fcDraw);	
