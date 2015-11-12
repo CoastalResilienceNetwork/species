@@ -131,6 +131,14 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				mapObject.addLayer(layer);
 				// Add map graphics (selected hexagon) 
 				mapObject.graphics.add(new esri.Graphic(this.fc.graphics[0].geometry, this.fc.graphics[0].symbol ));
+				// Update data filters section next to printed map
+				$.each(this.config.filter, lang.hitch(this,function(i,v){
+					var val = v.text.toString();
+					if (val == ""){
+						val ="-"
+					}	
+					$('#' + this.appDiv.id + 'ps' + v.field).html(val)
+				}))
 				// Add content to printed page
 				$printArea.append("<div id='title'>NY Species Report</div>")
 				$printArea.append("<div id='summary' class='printSummary'>" + $('#' + this.appDiv.id + 'printSummary').html() + "</div>")
@@ -222,8 +230,12 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 						}else{
 							if (this.config.stateSet == "no"){
 								this.config.tsFilters = $.tablesorter.getFilters( $('.tablesorter') );
-								$('#' + this.appDiv.id + 'psSN').html(this.config.tsFilters[0]);
-								$('#' + this.appDiv.id + 'psTa').html(this.config.tsFilters[1]);
+								var sn = this.config.tsFilters[0]
+								var ta = this.config.tsFilters[1]
+								//if (sn == ""){sn = "-"}
+								//if (ta == ""){ta = "-"}
+								$('#' + this.appDiv.id + 'psSN').html(sn);
+								$('#' + this.appDiv.id + 'psTa').html(ta);
 								$('#' + this.appDiv.id + 'selectNone').slideUp('fast');
 								// Use filters on visible table to update filters on print table
 								this.isFiltered = "no"
@@ -390,7 +402,11 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					$('#' + this.appDiv.id + 'rightSide .filter').chosen().change(lang.hitch(this,function(c, p){
 						// Figure out which menu was selected
 						var filterField = c.currentTarget.id.split("-").pop() 
-						// multiple select menu handler
+						// Get select text
+					/*	if (c.currentTarget.selectedOptions){
+							var selectedText = c.currentTarget.selectedOptions[0].innerHTML
+						}
+*/						// multiple select menu handler
 						if (filterField == "Associations"){
 							// Get index of the object where field equals 'Associations' in this.config.filter object
 							$.each(this.config.filter, lang.hitch(this,function(i,v){
@@ -401,12 +417,18 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 							// Add selected field to value array in object where field equals 'Associations'
 							if (p.selected){
 								this.config.filter[this.ind].value.push(p.selected)
+								// reset text array and add text of selected options
+								this.config.filter[this.ind].text = [];
+								$.each(c.currentTarget.selectedOptions, lang.hitch(this,function(j,k){
+									this.config.filter[this.ind].text.push(k.innerHTML)  
+								}));								
 							}
 							// Remove selected field to value array in object where field equals 'Associations'
 							else{
 								var index = this.config.filter[this.ind].value.indexOf(p.deselected);
 								if (index > -1) {
 									this.config.filter[this.ind].value.splice(index, 1);
+									this.config.filter[this.ind].text.splice(index, 1);
 								}
 							}			
 						}	
@@ -418,12 +440,16 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 								if (filterField == v.field){
 									if (p){
 										this.config.filter[i].value = p.selected;
+										// Add text of selected option
+										this.config.filter[i].text = c.currentTarget.selectedOptions[0].innerHTML;
 									}else{
 										this.config.filter[i].value = "";
+										this.config.filter[i].text = "";
 									}	
 								}	
 							}))								
 						}
+						console.log(this.config.filter)
 						// Remove filtered2 class from all rows to make them visible. If anything is filtered the class will be added back to the correct row in the filterItems function
 						$("#" + this.appDiv.id + "myTable tr.trclick").each(lang.hitch(this,function (i, row){
 							$(row).removeClass("filtered2");

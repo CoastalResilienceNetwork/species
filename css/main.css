@@ -207,5 +207,6 @@ label.showRangeMaps input[type=checkbox]{
 	margin-left:10px;
 } 	
 .psTop{
-	margin-top:10px;	
+	margin-top:10px;
+	text-decoration:underline;
 }	
