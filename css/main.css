@@ -179,3 +179,33 @@ label.showRangeMaps input[type=checkbox]{
 .mySpeciesLegend{
 	float:right; display:block; text-align:right; margin-left:-10px; padding:10px !important;
 }
+/* Hide Print Table */
+.pt {
+	display:none; 		
+}		
+.printTable {
+	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important;
+	font-size: 14pt !important;
+	table-width:fixed;
+	background-color: #fff;
+	text-align: left;
+	border-spacing: 0;
+	border: #777 1px solid;
+	width:1400px;
+}
+.printTable th,
+.printTable td {
+	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important;
+	font-size: 14pt !important;
+	border: #777 1px solid;
+	padding: 2px 3px;
+}
+.psHead{
+	font-weight:bold;	
+}	
+.psIn{
+	margin-left:10px;
+} 	
+.psTop{
+	margin-top:10px;	
+}	

@@ -13,6 +13,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 	ContentPane, HorizontalSlider, dom, domClass, domStyle, domConstruct, domGeom, lang, on, parser, ConstrainedMoveable, config, $, legendContent, content, ui ) {
 		return declare(PluginBase, {
 			toolbarName: "Species", showServiceLayersInLegend: false, allowIdentifyWhenActive: false, rendered: false, resizable: false,
+			hasCustomPrint: true, usePrintPreviewMap: true, previewMapSize: [600, 400],
 			// First function called when the user clicks the pluging icon. 
 			initialize: function (frameworkParameters) {
 				// Access framework parameters
@@ -69,6 +70,8 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				if (this.rendered == false) {
 					this.rendered = true;							
 					this.render();
+					// Hide the print button until a hex has been selected
+					$(this.printButton).hide();
 					this.dynamicLayer.setVisibility(true);
 				} else {
 					if (this.dynamicLayer != undefined)  {
@@ -92,6 +95,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 						}
 						$('#' + this.appDiv.id).css('height', '20');
 						$('#' + this.appDiv.id).show();
+						$(this.printButton).hide();
 					}	
 				}
 			},
@@ -119,6 +123,21 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 			setState: function (state) {
 				this.config = state;
 			},
+			// Called when the user hits the print icon
+			beforePrint: function(printDeferred, $printArea, mapObject) {
+				// Add hexagons
+				var layer = new esri.layers.ArcGISDynamicMapServiceLayer(this.url);
+				layer.setVisibleLayers([0])
+				mapObject.addLayer(layer);
+				// Add map graphics (selected hexagon) 
+				mapObject.graphics.add(new esri.Graphic(this.fc.graphics[0].geometry, this.fc.graphics[0].symbol ));
+				// Add content to printed page
+				$printArea.append("<div id='title'>NY Species Report</div>")
+				$printArea.append("<div id='summary' class='printSummary'>" + $('#' + this.appDiv.id + 'printSummary').html() + "</div>")
+				$printArea.append("<div id='tableWrapper'><div id='tableTitle'>Species in Selected Hexagon</div><table id='table' class='printTable'>" + $('#' + this.appDiv.id + 'myPrintTable').html() + "</table></div>");
+			
+                printDeferred.resolve();
+            },	
 			// Resizes the plugin after a manual or programmatic plugin resize so the button pane on the bottom stays on the bottom.
 			// Tweak the numbers subtracted in the if and else statements to alter the size if it's not looking good.
 			resize: function(w, h) {
@@ -195,14 +214,34 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 							stickyHeaders_includeCaption: false // or $('.wrapper')
 						}
 					})	
+					// called after table filter ends when typing in Species Name or Taxon windows
 					.bind('filterEnd',lang.hitch(this,function(e, filter){					
 						if ( filter.filteredRows == 0 && filter.totalRows > 0){
 							$('#' + this.appDiv.id + 'selectNone').slideDown('fast');
-							this.noneSelected();							
+							this.noneSelected();	
 						}else{
 							if (this.config.stateSet == "no"){
-								this.config.tsFilters = $.tablesorter.getFilters( $('table') );
+								this.config.tsFilters = $.tablesorter.getFilters( $('.tablesorter') );
+								$('#' + this.appDiv.id + 'psSN').html(this.config.tsFilters[0]);
+								$('#' + this.appDiv.id + 'psTa').html(this.config.tsFilters[1]);
 								$('#' + this.appDiv.id + 'selectNone').slideUp('fast');
+								// Use filters on visible table to update filters on print table
+								this.isFiltered = "no"
+								// If something was filtered by taxon or species name in view table add filtered class to print table row
+								$("#" + this.appDiv.id + "myTable tr.trclick").each(lang.hitch(this,function (i, row){
+									if($(row).hasClass("filtered")){
+									this.isFiltered = "yes"
+										var filterName = $(row).children('td:first').text()
+										$("#" + this.appDiv.id + "myPrintTable tr:contains('"+ filterName +"')").addClass("filtered")
+									}	
+								}))
+								// Check if anything in view table is filtered by taxon or species name
+								if (this.isFiltered == "no"){
+									// If no, remove filtered class from all rows in printed table
+									$("#" + this.appDiv.id + "myPrintTable tr").each(lang.hitch(this,function (i, row){
+										$(row).removeClass("filtered");
+									}))	
+								}	
 							}
 						}
 					}));
@@ -249,6 +288,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 							this.config.detailsVis = "none";
 						}
 						this.config.selectedObId = features[0].attributes.OBJECTID_12_13;
+						$('#' + this.appDiv.id + 'psHe').html(features[0].attributes.hexzone)
 						var relatedTopsQuery = new esri.tasks.RelationshipQuery();
 						relatedTopsQuery.outFields = ["*"];
 						relatedTopsQuery.relationshipId = 0;
@@ -281,7 +321,8 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				}));
 				// Print and CSV clicks
 				$('#' + this.appDiv.id + 'printReport').on('click',lang.hitch(this,function(e) { 
-					alert("Print Report is coming soon. Brace yourself, it's going to be awesome!")
+					$(this.printButton).trigger('click')
+					//alert("Print Report is coming soon. Brace yourself, it's going to be awesome!")
 				}));
 				$('#' + this.appDiv.id + 'dlCSV').on('click',lang.hitch(this,function(e) { 
 					alert("CSV Download is coming soon. Brace yourself, it's going to be awesome!")
@@ -387,6 +428,9 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 						$("#" + this.appDiv.id + "myTable tr.trclick").each(lang.hitch(this,function (i, row){
 							$(row).removeClass("filtered2");
 						}))
+						$("#" + this.appDiv.id + "myPrintTable tr").each(lang.hitch(this,function (i, row){
+							$(row).removeClass("filtered2");
+						}))
 						// No items are selected
 						if (this.config.filter[0].value.length == 0 && this.config.filter[1].value.length == 0 && this.config.filter[2].value.length == 0 && this.config.filter[3].value.length == 0 && this.config.filter[4].value.length == 0){
 							this.itemsFiltered = [];
@@ -459,7 +503,6 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 							// Loop through each value
 							$.each(this.valArray, lang.hitch(this,function(i3,v3){
 								// Check each value against each row and if value matches the display name remove the row
-								console.log(this.itemsFiltered)
 								$.each(this.itemsFiltered, lang.hitch(this,function(i4,v4){
 									if (v4[v.field] == v3){
 										this.hideRow(v4.Display_Name)
@@ -480,6 +523,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 			hideRow: function (rowName){
 				// Add filterer2 class to hide the row
 				$("#" + this.appDiv.id + "myTable tr:contains('"+ rowName +"')").addClass("filtered2")
+				$("#" + this.appDiv.id + "myPrintTable tr:contains('"+ rowName +"')").addClass("filtered2")
 				// Get species name from selected row and check to see if the selected row is being hidden
 				var selRow = $('tr.selected').find('td')
 				if ( $(selRow[0]).html() == rowName ){
@@ -488,8 +532,11 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 			},			
 			// Build tabele rows based on map click or itemsFiltered objects
 			updateTable: function (items){
-				// Clear table rows 
+				// Show print button
+				$(this.printButton).show();
+				// Clear table rows from visible and print table 
 				$('#' + this.appDiv.id + 'myTable tbody tr').remove()				
+				$('#' + this.appDiv.id + 'myPrintTable tbody tr').remove()
 				// Sort items by Display_Name
 				function compare(a,b) {
 					if (a.Display_Name < b.Display_Name){
@@ -509,9 +556,31 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 							this.rowType = "odd";	
 						}else{
 							this.rowType = "even";
-						}	
+						}
+						// Update visible table						
 						var newRow ="<tr class='trclick " + this.rowType +"' id='" + this.appDiv.id + "row-" + i + "'><td>" + v.Display_Name + "</td><td>" + v.TAXON + "</td></tr>" ;
 						$('#' + this.appDiv.id + 'myTable tbody').append(newRow)
+						// Update print table
+						var newPrintRow ="<tr>" + 
+							"<td>" + v.Display_Name + "</td>" + 
+							"<td>" + v.TAXON + "</td>" +
+							"<td>" + v.Condition_C + "</td>" + 
+							"<td>" + v.Threat_C + "</td>" +
+							"<td>" + v.Range_position + "</td>" +
+							"<td>" + v.Clim_Vuln_C + "</td>" + 
+							"<td>" + v.CCVIS_mean_cls + "</td>" +
+							"<td>" + v.fut_rpatch_ratio_cls + "</td>" + 
+							"<td>" + v.Range_Shift_NY + "</td>" +
+							"<td>" + v.Rare_spp + "</td>" + 
+							"<td>" + v.SGCN + "</td>" +
+							"<td>" + v.NHP_tConnect_label + "</td>" +
+							"<td>" + v.NHPc_rel_patch_qnt + "</td>" +
+							"<td>" + v.GAP_rel_patch_qnt + "</td>" +
+							"<td>" + v.FVc_rel_patch_qnt + "</td>" + 
+							"<td>" + v.McK_rel_patch_qnt + "</td>" +
+							"<td>" + v.USFS_CCTA_cur_qnt + "</td>" +
+						"</tr>"
+						$('#' + this.appDiv.id + 'myPrintTable tbody').append(newPrintRow)
 					}
 				}));
 				// Update table
@@ -567,7 +636,6 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					// Update the tablesorter filter on Species Name and Taxon
 					require(["jquery", "plugins/species/js/jquery.tablesorter.combined"],lang.hitch(this,function($) {
 						$.tablesorter.setFilters( $('table'), this.config.tsFilters, true );
-						console.log("made it")
 					}));	
 				}
 				else{
