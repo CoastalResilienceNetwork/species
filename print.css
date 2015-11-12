@@ -1,6 +1,6 @@
 ﻿@media print {
 	@page { 
-        size: auto;
+        size: landscape;
 		margin: 13mm 13mm 13mm 13mm;
     }
 	tr.tablesorter-filter-row{
