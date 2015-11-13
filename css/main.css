@@ -210,14 +210,14 @@ label.showRangeMaps input[type=checkbox]{
 	font-size:18pt !important;
 }	
 #tableWrapper {
-	position: absolute; top:470px; width:100%;
+	position: absolute; top:470px; width:100%; visibility: visible;
 }
 #tableTitle{
-	text-align:center; width:1400px; margin-bottom:5px; font-size:24pt !important;
+	text-align:center; width:1400px; margin-bottom:5px; font-size:24pt !important; visibility: visible;
 }
 #summary {
-	margin-left:640px; margin-top:40px;
+	margin-left:640px; margin-top:40px; visibility: visible;
 }	
 #title {
-	text-align:center; width:1400px; font-size:24pt !important;
+	text-align:center; width:1400px; font-size:24pt !important; visibility: visible;
 }		
