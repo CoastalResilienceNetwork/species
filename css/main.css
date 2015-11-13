@@ -179,27 +179,24 @@ label.showRangeMaps input[type=checkbox]{
 .mySpeciesLegend{
 	float:right; display:block; text-align:right; margin-left:-10px; padding:10px !important;
 }
-/* Hide Print Table */
+/* Hidden Print Table Styles */
 .pt {
 	display:none; 		
 }		
 .printTable {
-	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important;
-	font-size: 14pt !important;
-	table-width:fixed;
-	background-color: #fff;
-	text-align: left;
-	border-spacing: 0;
-	border: #777 1px solid;
-	width:1400px;
+	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important; font-size: 14pt !important; table-width:fixed; 
+	background-color: #fff; text-align: left; border-spacing: 0; border: #777 1px solid; width:1400px;
 }
 .printTable th,
 .printTable td {
-	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important;
-	font-size: 14pt !important;
-	border: #777 1px solid;
-	padding: 2px 3px;
+	font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important; font-size: 14pt !important; border: #777 1px solid; padding: 2px 3px;
 }
+.printTable .filtered {
+	display: none !important; 
+}
+.printTable .filtered2 {
+	display: none !important; 
+}	
 .psHead{
 	font-weight:bold;	
 }	
@@ -207,6 +204,20 @@ label.showRangeMaps input[type=checkbox]{
 	margin-left:10px;
 } 	
 .psTop{
-	margin-top:10px;
 	text-decoration:underline;
 }	
+.summary{
+	font-size:18pt !important;
+}	
+#tableWrapper {
+	position: absolute; top:470px; width:100%;
+}
+#tableTitle{
+	text-align:center; width:1400px; margin-bottom:5px; font-size:24pt !important;
+}
+#summary {
+	margin-left:640px; margin-top:40px;
+}	
+#title {
+	text-align:center; width:1400px; font-size:24pt !important;
+}		

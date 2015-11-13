@@ -3,10 +3,7 @@
         size: landscape;
 		margin: 13mm 13mm 13mm 13mm;
     }
-	tr.tablesorter-filter-row{
-		display:none;	
-	}	
-	.chosen-container{
+	tr.tablesorter-filter-row, .chosen-container{
 		display:none;	
 	}	
     #plugin-print-preview-map {
@@ -17,40 +14,8 @@
 		position:absolute;
 		top:50px;
 		left:-20px;
-    }
-	#tableWrapper {
-		visibility: visible;
-		position: absolute;
-		top:470px;
-		width:100%;
-	}
-	#tableTitle{
-		text-align:center;
-		width:1400px;
-		margin-bottom:5px;
-		font-size:24pt !important;
-	}
-	#summary {
-		visibility: visible;
-		margin-left:640px;
-		margin-top:40px;
-	}	
-	.summary{
-		font-size:18pt !important;
-	}			
+    }	
 	.pt{
 		visibility: visible;
 	}
-	.printTable .filtered {
-		display: none !important; 
-	}
-	.printTable .filtered2 {
-		display: none !important; 
-	}	
-	#title {
-		visibility: visible;
-		text-align:center;
-		width:1400px;
-		font-size:24pt !important;
-	}	
 }

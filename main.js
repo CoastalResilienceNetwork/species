@@ -132,11 +132,17 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				// Add map graphics (selected hexagon) 
 				mapObject.graphics.add(new esri.Graphic(this.fc.graphics[0].geometry, this.fc.graphics[0].symbol ));
 				// Update data filters section next to printed map
+				// Species Name and Taxon: if no filter add -
+				var sn = this.config.tsFilters[0]
+				var ta = this.config.tsFilters[1]
+				if (sn.length == 0){sn = "-"}
+				if (ta.length == 0){ta = "-"}
+				$('#' + this.appDiv.id + 'psSN').html(sn);
+				$('#' + this.appDiv.id + 'psTa').html(ta);
+				// Other filters: if no filter add -
 				$.each(this.config.filter, lang.hitch(this,function(i,v){
 					var val = v.text.toString();
-					if (val == ""){
-						val ="-"
-					}	
+					if (val.length == 0){val ="-"}	
 					$('#' + this.appDiv.id + 'ps' + v.field).html(val)
 				}))
 				// Add content to printed page
@@ -226,16 +232,12 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					.bind('filterEnd',lang.hitch(this,function(e, filter){					
 						if ( filter.filteredRows == 0 && filter.totalRows > 0){
 							$('#' + this.appDiv.id + 'selectNone').slideDown('fast');
-							this.noneSelected();	
+							this.noneSelected();
+							this.config.tsFilters = $.tablesorter.getFilters( $('.tablesorter') );						
 						}else{
 							if (this.config.stateSet == "no"){
 								this.config.tsFilters = $.tablesorter.getFilters( $('.tablesorter') );
-								var sn = this.config.tsFilters[0]
-								var ta = this.config.tsFilters[1]
-								//if (sn == ""){sn = "-"}
-								//if (ta == ""){ta = "-"}
-								$('#' + this.appDiv.id + 'psSN').html(sn);
-								$('#' + this.appDiv.id + 'psTa').html(ta);
+								console.log(this.config.tsFilters)
 								$('#' + this.appDiv.id + 'selectNone').slideUp('fast');
 								// Use filters on visible table to update filters on print table
 								this.isFiltered = "no"
