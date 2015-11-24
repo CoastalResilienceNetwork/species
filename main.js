@@ -270,7 +270,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				// Add hex for display/mouse-over
 				this.fcDraw = new FeatureLayer(this.url + "/0", {
 					mode: FeatureLayer.MODE_SNAPSHOT,
-					outFields: ["OBJECTID_12_13"]
+					outFields: ["OBJECTID"]
 				});
 				this.map.addLayer(this.fcDraw);	
 				dojo.connect(this.fcDraw, "onMouseOver", lang.hitch(this,function(e){
@@ -301,14 +301,14 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 							this.config.speciesRow = "";
 							this.config.detailsVis = "none";
 						}
-						this.config.selectedObId = features[0].attributes.OBJECTID_12_13;
+						this.config.selectedObId = features[0].attributes.OBJECTID;
 						$('#' + this.appDiv.id + 'psHe').html(features[0].attributes.hexzone)
 						var relatedTopsQuery = new esri.tasks.RelationshipQuery();
 						relatedTopsQuery.outFields = ["*"];
 						relatedTopsQuery.relationshipId = 0;
-						relatedTopsQuery.objectIds = [features[0].attributes.OBJECTID_12_13];
+						relatedTopsQuery.objectIds = [features[0].attributes.OBJECTID];
 						this.fc.queryRelatedFeatures(relatedTopsQuery, lang.hitch(this,function(relatedRecords) {
-							var fset = relatedRecords[features[0].attributes.OBJECTID_12_13];
+							var fset = relatedRecords[features[0].attributes.OBJECTID];
 							this.items = $.map(fset.features, function(feature) {
 								return feature.attributes;
 							});
@@ -320,7 +320,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				// If setState select feature
 				if (this.config.selectedObId.length != "") {
 					var q = new esri.tasks.Query()
-					q.where = 'OBJECTID_12_13 = ' + this.config.selectedObId;
+					q.where = 'OBJECTID = ' + this.config.selectedObId;
 					this.fc.selectFeatures(q,FeatureLayer.SELECTION_NEW);
 				}	
 				this.map.on("click", lang.hitch(this,function(evt){
@@ -492,7 +492,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 						if (this.config.filter[i].value.length > 0){
 							$.each(this.config.filter[i].value, lang.hitch(this,function(i1,v1){
 								$.each(this.itemsFiltered, lang.hitch(this,function(i2,v2){
-									if (v2[v1] == 1){
+									if (v2[v1] == 'Y'){
 										this.keepArray.push(v2.Display_Name)
 									}	
 								}));
