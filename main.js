@@ -335,8 +335,8 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				}));
 				// Print and CSV clicks
 				$('#' + this.appDiv.id + 'printReport').on('click',lang.hitch(this,function(e) { 
-					$(this.printButton).trigger('click')
-					//alert("Print Report is coming soon. Brace yourself, it's going to be awesome!")
+					//$(this.printButton).trigger('click')
+					alert("Methods are coming soon. Brace yourself, it's going to be awesome!")
 				}));
 				$('#' + this.appDiv.id + 'dlCSV').on('click',lang.hitch(this,function(e) { 
 					alert("CSV Download is coming soon. Brace yourself, it's going to be awesome!")

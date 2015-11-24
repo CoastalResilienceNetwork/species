@@ -127,7 +127,7 @@ label.showRangeMaps input[type=checkbox]{
 	background-color:#F3F3F3 !important; padding-top:3px !important; display:none;
 }
 .sliderDiv{
-	width:412px; text-align:center; display:none;
+	width:332px; text-align:center; display:none;
 }
 .printReport{
 	margin-left:5px; display:inline-block;
@@ -142,7 +142,7 @@ label.showRangeMaps input[type=checkbox]{
 	background-color:#f3f3f3; border:1px solid #bbb; cursor:pointer;
 }
 .bottomLinks{
-	width:70px; height:20px; padding-top:2px; border:1px solid #ddd; background-color:#eee; text-align:center; font-size:10pt; color:#21658c; font-weight:bold;
+	width:120px; height:20px; padding-top:2px; border:1px solid #ddd; background-color:#eee; text-align:center; font-size:10pt; color:#21658c; font-weight:bold;
 }
 .leftSliderLabel{
 	display:inline-block; margin-right:9px; font-size:10pt;
