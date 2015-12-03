@@ -12,7 +12,7 @@ define([
 function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Graphic, Color,
 	ContentPane, HorizontalSlider, dom, domClass, domStyle, domConstruct, domGeom, lang, on, parser, ConstrainedMoveable, config, $, legendContent, content, ui ) {
 		return declare(PluginBase, {
-			toolbarName: "Species", showServiceLayersInLegend: false, allowIdentifyWhenActive: false, rendered: false, resizable: false,
+			toolbarName: "Species Explorer", showServiceLayersInLegend: false, allowIdentifyWhenActive: false, rendered: false, resizable: false,
 			hasCustomPrint: true, usePrintPreviewMap: true, previewMapSize: [600, 400],
 			// First function called when the user clicks the pluging icon. 
 			initialize: function (frameworkParameters) {
@@ -22,11 +22,11 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				this.con = dom.byId('plugins/species-0');
 				this.con1 = dom.byId('plugins/species-1');
 				if (this.con1 != undefined){
-					domStyle.set(this.con1, "width", "255px");
-					domStyle.set(this.con1, "height", "165px");
+					domStyle.set(this.con1, "width", "265px");
+					domStyle.set(this.con1, "height", "250px");
 				}else{
-					domStyle.set(this.con, "width", "255px");
-					domStyle.set(this.con, "height", "165px");
+					domStyle.set(this.con, "width", "265px");
+					domStyle.set(this.con, "height", "250px");
 				}	
 				// Define object to access global variables from JSON object. Only add variables to config.JSON that are needed by Save and Share. 
 				this.config = dojo.eval("[" + config + "]")[0];	
@@ -44,8 +44,8 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					$('#' + this.appDiv.id).hide();
 					$('#' + this.appDiv.id + 'myTable, #' + this.appDiv.id + 'leftSide, #' + this.appDiv.id + 'rightSide').css('display', 'none');
 					$('#' + this.appDiv.id + 'bottomDiv').hide();
-					$('#' + this.appDiv.id + 'clickTitle').html("<p>Welcome to the CLIMAD Species app. Hold the Shift key while dragging your mouse over the map to zoom to your area of interest.<p>" + 
-																"<p style='font-weight:bold;margin-left:25px;margin-bottom:-10px;'>Click a Hexagon to Learn More</p>");
+					$('#' + this.appDiv.id + 'clickTitle').html("<p>Welcome to the NRN Species Explorer. Use this tool to identify species that may be present in your project area currently or in the future. Export custom species lists, identify priorities, and view models of current and future habitat.  Click a Hexagon to Begin!</p>" + 
+																"<p class='headerBottom'><i>Hold the Shift key while dragging your mouse over the map to zoom to your area of interest. </i></p>");
 					$('#' + this.appDiv.id + 'myLegendDiv').hide();
 				}
 				if (this.dynamicLayer != undefined)  {
@@ -87,11 +87,11 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 						this.con = dom.byId('plugins/species-0');
 						this.con1 = dom.byId('plugins/species-1');
 						if (this.con1 != undefined){
-							domStyle.set(this.con1, "width", "255px");
-							domStyle.set(this.con1, "height", "165px");
+							domStyle.set(this.con1, "width", "265px");
+							domStyle.set(this.con1, "height", "250px");
 						}else{
-							domStyle.set(this.con, "width", "255px");
-							domStyle.set(this.con, "height", "165px");
+							domStyle.set(this.con, "width", "265px");
+							domStyle.set(this.con, "height", "250px");
 						}
 						$('#' + this.appDiv.id).css('height', '20');
 						$('#' + this.appDiv.id).show();
@@ -148,7 +148,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				// Add content to printed page
 				$printArea.append("<div id='title'>NY Species Report</div>")
 				$printArea.append("<div id='summary' class='printSummary'>" + $('#' + this.appDiv.id + 'printSummary').html() + "</div>")
-				$printArea.append("<div id='tableWrapper'><div id='tableTitle'>Species in Selected Hexagon</div><table id='table' class='printTable'>" + $('#' + this.appDiv.id + 'myPrintTable').html() + "</table></div>");
+				$printArea.append("<div id='tableWrapper'><div id='tableTitle'>Species with Suitable Habitat in Hexagon</div><table id='table' class='printTable'>" + $('#' + this.appDiv.id + 'myPrintTable').html() + "</table></div>");
 			
                 printDeferred.resolve();
             },	
@@ -293,7 +293,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					if (features.length > 0){
 						$('#' + this.appDiv.id + 'spDetails').slideUp('slow');
 						$('#' + this.appDiv.id + 'myLegendDiv').hide();
-						$('#' + this.appDiv.id + 'rmText').html('Show Range Map On Selection');
+						$('#' + this.appDiv.id + 'rmText').html('Show Suitable Habitat On Selection');
 						if (this.config.stateSet == "no") {
 							this.spid = -1;
 							this.config.visibleLayers = [this.spid];
@@ -365,31 +365,31 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					if ( $('#' + this.appDiv.id + 'rMapCb').is(":checked") ){
 						this.config.visibleLayers.push(this.spid);
 						this.dynamicLayer.setVisibleLayers(this.config.visibleLayers); 
-						$('#' + this.appDiv.id + 'rmText').html('Click to Hide Range Map');
+						$('#' + this.appDiv.id + 'rmText').html('Click to Hide Suitable Habitat');
 						this.buildLegend();
 						$('#' + this.appDiv.id + 'myLegendDiv').show();
 						$('#' + this.appDiv.id + 'sliderDiv').css('display', 'inline-block');
 					}else{
-						$('#' + this.appDiv.id + 'rmText').html('Click to Show Range Map');
+						$('#' + this.appDiv.id + 'rmText').html('Click to Show Suitable Habitat');
 					}		
 					// Update Sepecies Details
 					this.updateSpeciesDetails();
 				}));
-				// Range map check box
+				// Suitable Habitat check box
 				$('#' + this.appDiv.id + 'rMapCb').on('change', lang.hitch(this,function() { 
 					if	( $('#' + this.appDiv.id + 'rMapCb').is(':checked') ){
 						if (this.config.speciesRow == ""){
-							$('#' + this.appDiv.id + 'rmText').html('Now Select Row to See Range Map');
+							$('#' + this.appDiv.id + 'rmText').html('Now Select Row to See Suitable Habitat');
 						}else{	
 							this.config.visibleLayers.push(this.spid);
-							$('#' + this.appDiv.id + 'rmText').html('Click to Hide Range Map');
+							$('#' + this.appDiv.id + 'rmText').html('Click to Hide Suitable Habitat');
 							this.buildLegend();
 							$('#' + this.appDiv.id + 'myLegendDiv').show();
 							$('#' + this.appDiv.id + 'sliderDiv').css('display', 'inline-block');
 						}
 					}else{
 						this.config.visibleLayers = [-1];
-						$('#' + this.appDiv.id + 'rmText').html('Click to Show Range Map');
+						$('#' + this.appDiv.id + 'rmText').html('Click to Show Suitable Habitat');
 						$('#' + this.appDiv.id + 'myLegendDiv').hide();
 						$('#' + this.appDiv.id + 'sliderDiv').css('display', 'none');
 					}	
@@ -615,7 +615,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				require(["jquery", "plugins/species/js/jquery.tablesorter.combined"],lang.hitch(this,function($) {
 					$('#' + this.appDiv.id + 'myTable').trigger("update");
 				}));
-				$('#' + this.appDiv.id + 'clickTitle').html('Species in Selected Hexagon')
+				$('#' + this.appDiv.id + 'clickTitle').html('Species with Suitable Habitat in Hexagon')
 				$('#' + this.appDiv.id + 'spDetailsHeader').html('<img src="plugins/species/images/leftArrow.png" width="20" alt="left arrow">  Click Rows for Species Details')
 				//Resize main container - check which side first
 				if (this.mapSide == "map-1_container"){
@@ -726,12 +726,12 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				})); 	
 			},
 			noneSelected: function(){
-				// Uncheck the view species range map checkbox and trigger change to clear visible layers and hide legend
+				// Uncheck the view species Suitable Habitat checkbox and trigger change to clear visible layers and hide legend
 				$('#' + this.appDiv.id + 'rMapCb').prop( "checked", false ); 
 				$('#' + this.appDiv.id + 'rMapCb').trigger("change");
 				// Hide species details box, update header text, and clear any selected row  
 				$('#' + this.appDiv.id + 'spDetails').slideUp();
-				$('#' + this.appDiv.id + 'rmText').html('Show Range Map On Selection');
+				$('#' + this.appDiv.id + 'rmText').html('Show Suitable Habitat On Selection');
 				this.config.detailsVis = "none";
 				$('#' + this.appDiv.id + 'spDetailsHeader').html('&#8592; Click Rows for Species Details')
 				$("#" + this.appDiv.id + "myTable tr.trclick").each(lang.hitch(this,function (i, row){

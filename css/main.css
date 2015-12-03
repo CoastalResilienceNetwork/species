@@ -22,8 +22,11 @@
 }
 /* Headers */
 .clickTitle{
-	position:absolute; left:10px; background-color:white; z-index:15;
+	position:absolute; left:10px; margin-right:10px; background-color:white; z-index:15;
 }
+.headerBottom{
+	margin-bottom:0px;
+}	
 .sectionHeader{
 	font-weight:bold; font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important; font-size:11pt !important; color:#21658c;
 }
@@ -93,10 +96,15 @@ abbr.search-choice-close {
 }
 /* Species details key */
 .spDetailsKey{
-	display:none; position:absolute; left:20px; top:174px; border: 2px solid #215973; padding:10px; width:260px; height:321px; background-color:#ffffff;
+	display:none; position:absolute; left:1px; top:30px; border: 2px solid #215973; padding:10px 0px 0px 10px; width:290px; height:531px; background-color:#ffffff;z-index:100;
 }
+.spdText{
+	position:relative; margin-top:30px; height:480px; overflow-y:auto; font-family: 'Archivo Narrow', 'Arial Narrow', Arial, Helvetica, sans-serif !important; font-size:10pt !important;
+	line-height:1.3; margin-bottom:0px;
+}	
 .spDKheaderDiv{
-	position:absolute; top:0px; left:0px; background-color:#F3F3F3; width:256px; height:34px; border-bottom-style:groove; 
+	position:absolute; top:0px; left:0px; background-color:#F3F3F3; width:100%; height:34px; border-bottom:2px solid #666; -webkit-box-shadow:1px 1px 2px 0px rgba(102,102,102,0.7); 
+	-moz-box-shadow:1px 1px 2px 0px rgba(102,102,102,0.7); box-shadow:1px 1px 2px 0px rgba(102,102,102,0.7); 
 }
 .spDKheader{
 	margin-top:8px; margin-left:5px;
@@ -111,7 +119,7 @@ abbr.search-choice-close {
 .sdkClose:active{
 	background-color: #f3f3f3; border-left: 1px solid #dadada; border-right: 1px solid #c2c2c2;
 }	
-/* Species range map checkbox */
+/* Species Suitable Habitat checkbox */
 .rMapCb{
 	cursor:pointer;
 }
