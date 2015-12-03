@@ -237,7 +237,6 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 						}else{
 							if (this.config.stateSet == "no"){
 								this.config.tsFilters = $.tablesorter.getFilters( $('.tablesorter') );
-								console.log(this.config.tsFilters)
 								$('#' + this.appDiv.id + 'selectNone').slideUp('fast');
 								// Use filters on visible table to update filters on print table
 								this.isFiltered = "no"
@@ -452,7 +451,6 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 								}	
 							}))								
 						}
-						console.log(this.config.filter)
 						// Remove filtered2 class from all rows to make them visible. If anything is filtered the class will be added back to the correct row in the filterItems function
 						$("#" + this.appDiv.id + "myTable tr.trclick").each(lang.hitch(this,function (i, row){
 							$(row).removeClass("filtered2");
