@@ -402,6 +402,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				//Use selections on chosen menus to update this.config.filter object
 				require(["jquery", "plugins/species/js/chosen.jquery"],lang.hitch(this,function($) {			
 					$('#' + this.appDiv.id + 'rightSide .filter').chosen().change(lang.hitch(this,function(c, p){
+						$("body").css("cursor", "progress");
 						// Figure out which menu was selected
 						var filterField = c.currentTarget.id.split("-").pop() 
 						// Get select text
@@ -470,6 +471,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 									$('#' + this.appDiv.id + 'selectNone').slideUp('fast');
 								}		
 							}))
+							$("body").css("cursor", "default");
 						}
 						// At least one item is selected
 						else{
@@ -545,7 +547,8 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					$('#' + this.appDiv.id + 'selectNone').slideDown('fast');
 				}else{
 					$('#' + this.appDiv.id + 'selectNone').slideUp('fast');
-				}	
+				}
+				$("body").css("cursor", "default");				
 			},	
 			// Hide rows filtered by chosen selects
 			hideRow: function (rowName){
