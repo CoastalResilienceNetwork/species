@@ -162,6 +162,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 			},
 			// Called by activate and builds the plugins elements and functions
 			render: function() {
+				this.map.setMapCursor("wait");
 				// Define Content Pane		
 				this.appDiv = new ContentPane({style:'padding:8px 2px 8px 8px'});
 				parser.parse();
@@ -272,6 +273,9 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					outFields: ["OBJECTID"]
 				});
 				this.map.addLayer(this.fcDraw);	
+				this.fcDraw.on('update-end', lang.hitch(this,function(){
+					this.map.setMapCursor("default");
+				}));
 				dojo.connect(this.fcDraw, "onMouseOver", lang.hitch(this,function(e){
 					this.map.setMapCursor("pointer");
 				}));
@@ -336,9 +340,6 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				$('#' + this.appDiv.id + 'printReport').on('click',lang.hitch(this,function(e) { 
 					//$(this.printButton).trigger('click')
 					alert("Methods are coming soon. Brace yourself, it's going to be awesome!")
-				}));
-				$('#' + this.appDiv.id + 'dlCSV').on('click',lang.hitch(this,function(e) { 
-					alert("CSV Download is coming soon. Brace yourself, it's going to be awesome!")
 				}));
 				// Table row click
 				$('#' + this.appDiv.id + 'myTable').on('click','.trclick',lang.hitch(this,function(e) { 
