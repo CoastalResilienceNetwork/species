@@ -53,7 +53,8 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					this.map.graphics.clear();
 				}
 				if (this.fc != undefined){
-					this.fc.clear()
+					this.fc.clear();
+					this.mapClick = "pause";
 				}
 				if (this.map != undefined){
 					this.map.graphics.clear();
@@ -81,8 +82,9 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 						}	
 					}
 					if (this.fcDraw != undefined){
-						this.map.addLayer(this.fcDraw);	
+						this.map.addLayer(this.fcDraw);					
 					}
+					this.mapClick = "go";
 					if (this.small == "yes"){
 						this.con = dom.byId('plugins/species-0');
 						this.con1 = dom.byId('plugins/species-1');
@@ -163,6 +165,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 			// Called by activate and builds the plugins elements and functions
 			render: function() {
 				this.map.setMapCursor("wait");
+				this.mapClick = "go";
 				// Define Content Pane		
 				this.appDiv = new ContentPane({style:'padding:8px 2px 8px 8px'});
 				parser.parse();
@@ -327,14 +330,16 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					this.fc.selectFeatures(q,FeatureLayer.SELECTION_NEW);
 				}	
 				this.map.on("click", lang.hitch(this,function(evt){
-					var selectionQuery = new esri.tasks.Query();
-					var tol = 0;
-					var x = evt.mapPoint.x;
-					var y = evt.mapPoint.y;
-					var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
-					selectionQuery.geometry = queryExtent;
-					this.fc.selectFeatures(selectionQuery,FeatureLayer.SELECTION_NEW);	
-					this.mapSide = evt.currentTarget.id
+					if (this.mapClick == "go"){
+						var selectionQuery = new esri.tasks.Query();
+						var tol = 0;
+						var x = evt.mapPoint.x;
+						var y = evt.mapPoint.y;
+						var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+						selectionQuery.geometry = queryExtent;
+						this.fc.selectFeatures(selectionQuery,FeatureLayer.SELECTION_NEW);	
+						this.mapSide = evt.currentTarget.id
+					}	
 				}));
 				// Print and CSV clicks
 				$('#' + this.appDiv.id + 'printReport').on('click',lang.hitch(this,function(e) { 
