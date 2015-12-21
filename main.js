@@ -4,12 +4,12 @@ require({
 });
 // Bring in dojo and javascript api classes as well as config.json and content.html
 define([
-	"dojo/_base/declare", "framework/PluginBase", "esri/layers/FeatureLayer", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", 
+	"esri/SpatialReference", "esri/geometry/Extent", "esri/tasks/query", "esri/layers/ArcGISDynamicMapServiceLayer", "dojo/_base/declare", "framework/PluginBase", "esri/layers/FeatureLayer", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", 
 	"esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/tasks/RelationshipQuery", "dojo/_base/Color", 	"dijit/layout/ContentPane", "dijit/form/HorizontalSlider", "dojo/dom", 
 	"dojo/dom-class", "dojo/dom-style", "dojo/dom-construct", "dojo/dom-geometry", "dojo/_base/lang", "dojo/on", "dojo/parser", 'plugins/species/js/ConstrainedMoveable',
 	"dojo/text!./config.json", "jquery", "dojo/text!./html/legend.html", "dojo/text!./html/content.html", 'plugins/species/js/jquery-ui-1.11.0/jquery-ui'
 ],
-function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Graphic, RelationshipQuery, Color,
+function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Graphic, RelationshipQuery, Color,
 	ContentPane, HorizontalSlider, dom, domClass, domStyle, domConstruct, domGeom, lang, on, parser, ConstrainedMoveable, config, $, legendContent, content, ui ) {
 		return declare(PluginBase, {
 			toolbarName: "Species Explorer", showServiceLayersInLegend: false, allowIdentifyWhenActive: false, rendered: false, resizable: false,
@@ -128,11 +128,11 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 			// Called when the user hits the print icon
 			beforePrint: function(printDeferred, $printArea, mapObject) {
 				// Add hexagons
-				var layer = new esri.layers.ArcGISDynamicMapServiceLayer(this.url);
+				var layer = new ArcGISDynamicMapServiceLayer(this.url);
 				layer.setVisibleLayers([0])
 				mapObject.addLayer(layer);
 				// Add map graphics (selected hexagon) 
-				mapObject.graphics.add(new esri.Graphic(this.fc.graphics[0].geometry, this.fc.graphics[0].symbol ));
+				mapObject.graphics.add(new Graphic(this.fc.graphics[0].geometry, this.fc.graphics[0].symbol ));
 				// Update data filters section next to printed map
 				// Species Name and Taxon: if no filter add -
 				var sn = this.config.tsFilters[0]
@@ -192,7 +192,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 					$('#' + this.appDiv.id + 'myLegendDiv').hide();
 				}));
 				// Add dynamic map service
-				this.dynamicLayer = new esri.layers.ArcGISDynamicMapServiceLayer(this.url, {opacity: 1 - this.config.sliderVal/10});
+				this.dynamicLayer = new ArcGISDynamicMapServiceLayer(this.url, {opacity: 1 - this.config.sliderVal/10});
 				this.map.addLayer(this.dynamicLayer);
 				this.dynamicLayer.on("load", lang.hitch(this, function () {  
 					if (this.config.extent == ""){
@@ -200,7 +200,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 							this.map.setLevel(12)	
 						}	
 					}else{
-						var extent = new esri.geometry.Extent(this.config.extent.xmin, this.config.extent.ymin, this.config.extent.xmax, this.config.extent.ymax, new esri.SpatialReference({ wkid:4326 }))
+						var extent = new Extent(this.config.extent.xmin, this.config.extent.ymin, this.config.extent.xmax, this.config.extent.ymax, new SpatialReference({ wkid:4326 }))
 						this.map.setExtent(extent, true);
 						this.config.extent = ""; 	
 					}
@@ -325,17 +325,17 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 				this.map.addLayer(this.fc);				
 				// If setState select feature
 				if (this.config.selectedObId.length != "") {
-					var q = new esri.tasks.Query()
+					var q = new Query()
 					q.where = 'OBJECTID = ' + this.config.selectedObId;
 					this.fc.selectFeatures(q,FeatureLayer.SELECTION_NEW);
 				}	
 				this.map.on("click", lang.hitch(this,function(evt){
 					if (this.mapClick == "go"){
-						var selectionQuery = new esri.tasks.Query();
+						var selectionQuery = new Query();
 						var tol = 0;
 						var x = evt.mapPoint.x;
 						var y = evt.mapPoint.y;
-						var queryExtent = new esri.geometry.Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
+						var queryExtent = new Extent(x-tol,y-tol,x+tol,y+tol,evt.mapPoint.spatialReference);
 						selectionQuery.geometry = queryExtent;
 						this.fc.selectFeatures(selectionQuery,FeatureLayer.SELECTION_NEW);	
 						this.mapSide = evt.currentTarget.id
