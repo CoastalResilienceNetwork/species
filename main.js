@@ -5,11 +5,11 @@ require({
 // Bring in dojo and javascript api classes as well as config.json and content.html
 define([
 	"dojo/_base/declare", "framework/PluginBase", "esri/layers/FeatureLayer", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", 
-	"esri/symbols/SimpleMarkerSymbol", "esri/graphic", "dojo/_base/Color", 	"dijit/layout/ContentPane", "dijit/form/HorizontalSlider", "dojo/dom", 
+	"esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/tasks/RelationshipQuery", "dojo/_base/Color", 	"dijit/layout/ContentPane", "dijit/form/HorizontalSlider", "dojo/dom", 
 	"dojo/dom-class", "dojo/dom-style", "dojo/dom-construct", "dojo/dom-geometry", "dojo/_base/lang", "dojo/on", "dojo/parser", 'plugins/species/js/ConstrainedMoveable',
 	"dojo/text!./config.json", "jquery", "dojo/text!./html/legend.html", "dojo/text!./html/content.html", 'plugins/species/js/jquery-ui-1.11.0/jquery-ui'
 ],
-function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Graphic, Color,
+function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Graphic, RelationshipQuery, Color,
 	ContentPane, HorizontalSlider, dom, domClass, domStyle, domConstruct, domGeom, lang, on, parser, ConstrainedMoveable, config, $, legendContent, content, ui ) {
 		return declare(PluginBase, {
 			toolbarName: "Species Explorer", showServiceLayersInLegend: false, allowIdentifyWhenActive: false, rendered: false, resizable: false,
@@ -309,7 +309,7 @@ function ( declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol
 						}
 						this.config.selectedObId = features[0].attributes.OBJECTID;
 						$('#' + this.appDiv.id + 'psHe').html(features[0].attributes.hexzone)
-						var relatedTopsQuery = new esri.tasks.RelationshipQuery();
+						var relatedTopsQuery = new RelationshipQuery();
 						relatedTopsQuery.outFields = ["*"];
 						relatedTopsQuery.relationshipId = 0;
 						relatedTopsQuery.objectIds = [features[0].attributes.OBJECTID];
