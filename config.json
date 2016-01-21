@@ -1,5 +1,6 @@
 {
-    "visibleLayers": [],
+    "url": "http://dev.services2.coastalresilience.org:6080/arcgis/rest/services/New_York/NY_CLIMAD_species/MapServer",
+	"visibleLayers": [],
 	"tsFilters": [],
 	"extent": "",
 	"sliderVal": 4,

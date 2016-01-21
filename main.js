@@ -35,7 +35,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 				this.itemsFiltered = [];
 				this.atRow = [];
 				this.firstRun = "yes";
-				this.url = "http://dev.services2.coastalresilience.org:6080/arcgis/rest/services/New_York/NY_CLIMAD_species/MapServer"
+				this.url = this.config.url;
 			},
 			// Called after initialize at plugin startup (why all the tests for undefined). Also called after deactivate when user closes app by clicking X. 
 			hibernate: function () {
@@ -169,6 +169,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 				// Define Content Pane		
 				this.appDiv = new ContentPane({style:'padding:8px 2px 8px 8px'});
 				parser.parse();
+				console.log(this)
 				dom.byId(this.container).appendChild(this.appDiv.domNode);					
 				// Get html from content.html, prepend appDiv.id to html element id's, and add to appDiv
 				var idUpdate = content.replace(/id='/g, "id='" + this.appDiv.id);	
