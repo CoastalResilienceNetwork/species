@@ -1,5 +1,5 @@
 {
-    "url": "http://dev.services.coastalresilience.org:6080/arcgis/rest/services/Natural_Resource_Navigator/Natural_Resource_Navigator/MapServer",
+    "url": "http://dev.services.coastalresilience.org:6080/arcgis/rest/services/Natural_Resource_Navigator/NY_CLIMAD_species/MapServer",
 	"visibleLayers": [],
 	"tsFilters": [],
 	"extent": "",
