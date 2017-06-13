@@ -64,14 +64,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 							this.map.setLevel(12)	
 						}	
 					}
-					// if (this.fcDraw != undefined){
-					// 	this.map.addLayer(this.fcDraw);					
-					// }
 					this.mapClick = "go";
-					// if (this.small == "yes"){
-					// 	$('#' + this.appDiv.id).show();
-					// 	$(this.printButton).hide();
-					// }	
 				}
 			},
 			// Called when user hits 'Save and Share' button. This creates the url that builds the app at a given state using JSON. 
@@ -222,22 +215,6 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 						'.chosen-select-multiple'     : {width:"282px"} }
 					for (var selector in config) { $(selector).chosen(config[selector]); }
 				}));	
-				// Add hex for display/mouse-over
-				// this.fcDraw = new FeatureLayer(this.url + "/0", {
-				// 	mode: FeatureLayer.MODE_SNAPSHOT,
-				// 	outFields: ["OBJECTID"]
-				// });
-				//this.map.addLayer(this.fcDraw);	
-				// this.fcDraw.on('update-end', lang.hitch(this,function(){
-				// 	this.map.setMapCursor("default");
-
-				// }));
-				// dojo.connect(this.fcDraw, "onMouseOver", lang.hitch(this,function(e){
-				// 	this.map.setMapCursor("pointer");
-				// }));
-				// dojo.connect(this.fcDraw, "onMouseOut", lang.hitch(this,function(e){
-				// 	this.map.setMapCursor("default");
-				// }));				
 				// Add hex feature class and click events
 				this.fc = new FeatureLayer(this.url + "/0", {
 				 	mode: FeatureLayer.MODE_SELECTION,
@@ -362,14 +339,9 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 				//Use selections on chosen menus to update this.config.filter object
 				require(["jquery", "plugins/species/js/chosen.jquery"],lang.hitch(this,function($) {			
 					$('#' + this.appDiv.id + 'rightSide .filter').chosen().change(lang.hitch(this,function(c, p){
-						//$("body").css("cursor", "progress");
 						// Figure out which menu was selected
 						var filterField = c.currentTarget.id.split("-").pop() 
-						// Get select text
-					/*	if (c.currentTarget.selectedOptions){
-							var selectedText = c.currentTarget.selectedOptions[0].innerHTML
-						}
-*/						// multiple select menu handler
+						// multiple select menu handler
 						if (filterField == "Associations"){
 							// Get index of the object where field equals 'Associations' in this.config.filter object
 							$.each(this.config.filter, lang.hitch(this,function(i,v){
@@ -430,7 +402,6 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 									$('#' + this.appDiv.id + 'selectNone').slideUp('fast');
 								}		
 							}))
-							//$("body").css("cursor", "default");
 						}
 						// At least one item is selected
 						else{
