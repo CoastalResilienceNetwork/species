@@ -493,6 +493,8 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 			},			
 			// Build tabele rows based on map click or itemsFiltered objects
 			updateTable: function (items){
+				$('#' + this.appDiv.id + 'spcnt').html(items.length + " ")
+				console.log(items.length)
 				// Show print button
 				$(this.printButton).show();
 				// Clear table rows from visible and print table 
