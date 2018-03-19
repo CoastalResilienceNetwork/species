@@ -55,8 +55,6 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 					this.render();
 					// Hide the print button until a hex has been selected
 					$(this.printButton).hide();
-					this.dynamicLayer.setVisibility(true);
-					this.hexLayer.setVisibility(true);
 				} else {
 					if (this.dynamicLayer != undefined)  {
 						this.dynamicLayer.setVisibility(true);	
@@ -135,13 +133,11 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 
 				// Add dynamic map service
 				this.dynamicLayer = new ArcGISDynamicMapServiceLayer(this.url, {opacity: this.config.sliderVal/10});
-				if (this.config.visibleLayers.length > 0){	
-					this.dynamicLayer.setVisibleLayers(this.config.visibleLayers);
-					if (this.config.visibleLayers.length > 1){
-						this.spid = this.config.visibleLayers[1];	
-					}	
-				}
 				this.map.addLayer(this.dynamicLayer);
+				this.dynamicLayer.setVisibleLayers(this.config.visibleLayers);
+				if (this.config.visibleLayers.length > 1){
+					this.spid = this.config.visibleLayers[1];	
+				}	
 				this.dynamicLayer.on("load", lang.hitch(this, function () {  
 					if (this.config.extent == ""){
 						this.map.setExtent(this.dynamicLayer.fullExtent.expand(0.9));
@@ -154,8 +150,8 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 				}));
 				// Add hexagon layer
 				this.hexLayer = new ArcGISDynamicMapServiceLayer(this.url, {opacity: 1});
-				this.hexLayer.setVisibleLayers([0]);
-				this.map.addLayer(this.hexLayer);				
+				this.map.addLayer(this.hexLayer);	
+				this.hexLayer.setVisibleLayers([0]);			
 				// Create and handle transparency slider
 				$('#' + this.appDiv.id + 'slider').slider({ min: 0,	max: 10, value: this.config.sliderVal });
 				$('#' + this.appDiv.id + 'slider').on( "slidechange", lang.hitch(this,function( e, ui ) {
