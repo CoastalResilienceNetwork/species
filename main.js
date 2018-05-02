@@ -9,7 +9,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 	ContentPane, HorizontalSlider, dom, domClass, domStyle, domConstruct, domGeom, lang, on, parser, ConstrainedMoveable, config, $, content ) {
 		return declare(PluginBase, {
 			toolbarName: "Species Explorer", showServiceLayersInLegend: true, allowIdentifyWhenActive:false, rendered: false, resizable: false,
-			hasCustomPrint: true, usePrintPreviewMap: true, previewMapSize: [600, 400], size:'custom', width:600,
+			hasCustomPrint: false, usePrintPreviewMap: true, previewMapSize: [600, 400], size:'custom', width:600,
 			// First function called when the user clicks the pluging icon. 
 			initialize: function (frameworkParameters) {
 				// Access framework parameters
