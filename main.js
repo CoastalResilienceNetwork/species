@@ -3,10 +3,10 @@ define([
 	"esri/SpatialReference", "esri/geometry/Extent", "esri/tasks/query", "esri/layers/ArcGISDynamicMapServiceLayer", "dojo/_base/declare", "framework/PluginBase", "esri/layers/FeatureLayer", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", 
 	"esri/symbols/SimpleMarkerSymbol", "esri/graphic", "esri/tasks/RelationshipQuery", "dojo/_base/Color", 	"dijit/layout/ContentPane", "dijit/form/HorizontalSlider", "dojo/dom", 
 	"dojo/dom-class", "dojo/dom-style", "dojo/dom-construct", "dojo/dom-geometry", "dojo/_base/lang", "dojo/on", "dojo/parser", 'plugins/species/js/ConstrainedMoveable',
-	"dojo/text!./config.json", "jquery", "dojo/text!./html/content.html"
+	"dojo/text!./config.json", "dojo/text!./html/content.html"
 ],
 function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Graphic, RelationshipQuery, Color,
-	ContentPane, HorizontalSlider, dom, domClass, domStyle, domConstruct, domGeom, lang, on, parser, ConstrainedMoveable, config, $, content ) {
+	ContentPane, HorizontalSlider, dom, domClass, domStyle, domConstruct, domGeom, lang, on, parser, ConstrainedMoveable, config, content ) {
 		return declare(PluginBase, {
 			toolbarName: "Species Explorer", showServiceLayersInLegend: true, allowIdentifyWhenActive:false, rendered: false, resizable: false,
 			hasCustomPrint: false, usePrintPreviewMap: true, previewMapSize: [600, 400], size:'custom', width:600,
