@@ -8,7 +8,7 @@ define([
 function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare, PluginBase, FeatureLayer, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol, Graphic, RelationshipQuery, Color,
 	ContentPane, HorizontalSlider, dom, domClass, domStyle, domConstruct, domGeom, lang, on, parser, ConstrainedMoveable, config, content ) {
 		return declare(PluginBase, {
-			toolbarName: "Species Explorer", showServiceLayersInLegend: true, allowIdentifyWhenActive:false, rendered: false, resizable: false,
+			toolbarName: "Species Explorer", fullName:"Species Explorer: Identify species that may be present in your project area currently or in the future, export custom species lists, identify priorities, and view models of current and future habitat.", showServiceLayersInLegend: true, allowIdentifyWhenActive:false, rendered: false, resizable: false,
 			hasCustomPrint: false, usePrintPreviewMap: true, previewMapSize: [600, 400], size:'custom', width:600,
 			// First function called when the user clicks the pluging icon. 
 			initialize: function (frameworkParameters) {
@@ -206,11 +206,11 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 					
 				}));	
 				// Enable jquery plugin 'chosen'
-				require(["jquery", "plugins/species/js/chosen.jquery"],lang.hitch(this,function($) {
+				//require(["jquery", "plugins/species/js/chosen.jquery"],lang.hitch(this,function($) {
 					var config = { '.chosen-select'           : {allow_single_deselect:true, width:"138px", disable_search:true},
 						'.chosen-select-multiple'     : {width:"282px"} }
 					for (var selector in config) { $(selector).chosen(config[selector]); }
-				}));	
+				//}));	
 				// Add hex feature class and click events
 				this.fc = new FeatureLayer(this.url + "/0", {
 				 	mode: FeatureLayer.MODE_SELECTION,
@@ -333,7 +333,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 					$('#' + this.appDiv.id + 'spDetailsKey').slideUp();
 				}));	
 				//Use selections on chosen menus to update this.config.filter object
-				require(["jquery", "plugins/species/js/chosen.jquery"],lang.hitch(this,function($) {			
+				//require(["jquery", "plugins/species/js/chosen.jquery"],lang.hitch(this,function($) {			
 					$('#' + this.appDiv.id + 'rightSide .filter').chosen().change(lang.hitch(this,function(c, p){
 						// Figure out which menu was selected
 						var filterField = c.currentTarget.id.split("-").pop() 
@@ -404,7 +404,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 							this.filterItems()
 						}	
 					}));
-				}));
+				//}));
 				this.rendered = true;				
 			},
 			// Called when this.config.filter has values for filtering
