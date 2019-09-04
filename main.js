@@ -33,15 +33,8 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 				}
 				if (this.dynamicLayer != undefined)  {
 					this.dynamicLayer.setVisibleLayers([-1]);
-					this.hexLayer.setVisibleLayers([-1]);
 					this.map.graphics.clear();
-				}
-				if (this.fc != undefined){
-					this.fc.clear();
 					this.mapClick = "pause";
-				}
-				if (this.map != undefined){
-					this.map.graphics.clear();
 				}
 			},
 			// Called when user hits the minimize '_' icon on the pluging. Also called before hibernate when users closes app by clicking 'X'.
@@ -57,8 +50,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 					$(this.printButton).hide();
 				} else {
 					if (this.dynamicLayer != undefined)  {
-						this.dynamicLayer.setVisibleLayers[this.config.visibleLayers];	
-						this.hexLayer.setVisibleLayers([0]);
+						this.dynamicLayer.setVisibleLayers([0]);	
 						if ( this.map.getZoom() > 12 ){
 							this.map.setLevel(12)	
 						}	
@@ -148,11 +140,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 						this.config.extent = ""; 	
 					}
 					this.layersArray = this.dynamicLayer.layerInfos;;
-				}));
-				// Add hexagon layer
-				this.hexLayer = new ArcGISDynamicMapServiceLayer(this.url, {opacity: 1});
-				this.map.addLayer(this.hexLayer);	
-				this.hexLayer.setVisibleLayers([0]);			
+				}));		
 				// Create and handle transparency slider
 				$('#' + this.appDiv.id + 'slider').slider({ min: 0,	max: 10, value: this.config.sliderVal });
 				$('#' + this.appDiv.id + 'slider').on( "slidechange", lang.hitch(this,function( e, ui ) {
@@ -224,14 +212,13 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 				this.fc.on("selection-complete", lang.hitch(this,function(evt){
 					var features = evt.features;
 					if (features.length > 0){
-						console.log(evt.features[0])
 						var sel = new Graphic(evt.features[0].geometry,hlsymbol);
 						this.map.graphics.add(sel);
 						$('#' + this.appDiv.id + 'spDetails').slideUp('slow');
 						$('#' + this.appDiv.id + 'rmText').html('Show Suitable Habitat On Selection');
 						if (this.config.stateSet == "no") {
 							this.spid = -1;
-							this.config.visibleLayers = [this.spid];
+							this.config.visibleLayers = [0,this.spid];
 							this.dynamicLayer.setVisibleLayers(this.config.visibleLayers); 
 							this.config.speciesRow = "";
 							this.config.detailsVis = "none";
@@ -306,7 +293,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 					}))
 					// If it is and the checkbox is checked, show it 
 					if ( $('#' + this.appDiv.id + 'rMapCb').is(":checked") ){
-						this.config.visibleLayers.push(this.spid);
+						this.config.visibleLayers = [0,this.spid];
 						this.dynamicLayer.setVisibleLayers(this.config.visibleLayers); 
 						$('#' + this.appDiv.id + 'rmText').html('Click to Hide Suitable Habitat');
 						$('#' + this.appDiv.id + 'sliderDiv').css('opacity', '1');
@@ -322,12 +309,12 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 						if (this.config.speciesRow == ""){
 							$('#' + this.appDiv.id + 'rmText').html('Now Select Row to See Suitable Habitat');
 						}else{	
-							this.config.visibleLayers.push(this.spid);
+							this.config.visibleLayers = [0,this.spid];
 							$('#' + this.appDiv.id + 'rmText').html('Click to Hide Suitable Habitat');
 							$('#' + this.appDiv.id + 'sliderDiv').css('opacity', '1');
 						}
 					}else{
-						this.config.visibleLayers = [-1];
+						this.config.visibleLayers = [0];
 						$('#' + this.appDiv.id + 'rmText').html('Click to Show Suitable Habitat');
 						$('#' + this.appDiv.id + 'sliderDiv').css('opacity', '0');
 					}	
@@ -495,7 +482,6 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 			// Build tabele rows based on map click or itemsFiltered objects
 			updateTable: function (items){
 				$('#' + this.appDiv.id + 'spcnt').html(items.length + " ")
-				console.log(items.length)
 				// Show print button
 				$(this.printButton).show();
 				// Clear table rows from visible and print table 

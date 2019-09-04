@@ -1,6 +1,6 @@
 {
     "url": "https://services2.coastalresilience.org/arcgis/rest/services/Natural_Resource_Navigator/Species_Explorer/MapServer",
-	"visibleLayers": [],
+	"visibleLayers": [0],
 	"tsFilters": [],
 	"extent": "",
 	"sliderVal": 7,
