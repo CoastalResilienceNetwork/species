@@ -32,8 +32,8 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 					$('#' + this.appDiv.id + 'clickTitle').slideDown();
 				}
 				if (this.dynamicLayer != undefined)  {
-					this.dynamicLayer.setVisibility(false);
-					this.hexLayer.setVisibility(false);
+					this.dynamicLayer.setVisibleLayers([-1]);
+					this.hexLayer.setVisibleLayers([-1]);
 					this.map.graphics.clear();
 				}
 				if (this.fc != undefined){
@@ -57,7 +57,8 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 					$(this.printButton).hide();
 				} else {
 					if (this.dynamicLayer != undefined)  {
-						this.dynamicLayer.setVisibility(true);	
+						this.dynamicLayer.setVisibleLayers[this.config.visibleLayers];	
+						this.hexLayer.setVisibleLayers([0]);
 						if ( this.map.getZoom() > 12 ){
 							this.map.setLevel(12)	
 						}	
@@ -223,6 +224,9 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 				this.fc.on("selection-complete", lang.hitch(this,function(evt){
 					var features = evt.features;
 					if (features.length > 0){
+						console.log(evt.features[0])
+						var sel = new Graphic(evt.features[0].geometry,hlsymbol);
+						this.map.graphics.add(sel);
 						$('#' + this.appDiv.id + 'spDetails').slideUp('slow');
 						$('#' + this.appDiv.id + 'rmText').html('Show Suitable Habitat On Selection');
 						if (this.config.stateSet == "no") {
@@ -251,7 +255,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 						$('#' + this.appDiv.id + 'clickTitle').slideDown();
 					}
 				}));
-				this.map.addLayer(this.fc);				
+				//this.map.addLayer(this.fc);				
 				// If setState select feature
 				if (this.config.selectedObId.length != "") {
 					var q = new Query()
@@ -260,6 +264,7 @@ function (SpatialReference, Extent, Query, ArcGISDynamicMapServiceLayer, declare
 				}	
 				this.map.on("click", lang.hitch(this,function(evt){
 					if (this.mapClick == "go"){
+						this.map.graphics.clear();
 						var selectionQuery = new Query();
 						var tol = 0;
 						var x = evt.mapPoint.x;
